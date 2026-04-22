@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>나만의 웹서비스 - 홈</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="logo">MyProject</div>
+    <button id="menuBtn" class="hamburger">☰</button>
+    <ul id="navMenu" class="nav-menu">
+      <li><a href="index.html">홈</a></li>
+      <li><a href="about.html">소개 페이지로 이동</a></li>
+    </ul>
+  </nav>
+
+  <main id="home" class="hero fade-in">
+    <h1 id="heroTitle">안녕하세요!</h1>
+    <p>우리 팀의 멋진 프로젝트를 소개합니다.</p>
+    <div class="btn-group">
+      <button id="themeBtn">다크모드</button>
+      <button id="greetBtn">인사하기</button>
+      <button onclick="location.href='about.html'">상세보기</button>
+    </div>
+  </main>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
