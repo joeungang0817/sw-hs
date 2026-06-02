@@ -10,8 +10,21 @@ dotenv.config();
 
 const app = express();
 const port = Number(process.env.PORT) || 8080;
+const allowedOrigins = ["http://localhost:3000", "http://127.0.0.1:3000"];
 
-app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+app.use(
+  cors({
+    origin(origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+        return;
+      }
+
+      callback(new Error("CORS origin is not allowed."));
+    },
+    credentials: true
+  })
+);
 app.use(express.json());
 app.use(cookieParser());
 

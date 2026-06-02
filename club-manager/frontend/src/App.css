@@ -22,6 +22,27 @@ button:hover {
   background-color: #1d4ed8;
 }
 
+.top-nav {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  padding: 15px;
+  background: #ffffff;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  font-family: Arial, sans-serif;
+}
+
+.top-nav a {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.top-nav a:hover {
+  color: #1d4ed8;
+}
+
 .secondary-button {
   background-color: #e2e8f0;
   color: #334155;
@@ -62,7 +83,7 @@ button:hover {
 }
 
 .login-page {
-  min-height: 100vh;
+  min-height: calc(100vh - 72px);
   display: grid;
   place-items: center;
   padding: 24px;
@@ -70,8 +91,7 @@ button:hover {
 }
 
 .login-form,
-.add-form,
-.card {
+.add-form {
   background: #ffffff;
   border: 1px solid #e2e8f0;
   border-radius: 8px;
@@ -113,42 +133,10 @@ input:focus {
   gap: 12px;
 }
 
-.card {
-  padding: 18px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 16px;
-}
-
-.card h3 {
-  margin: 0 0 6px;
-  color: #1e293b;
-  font-size: 18px;
-}
-
-.card p {
-  margin: 0;
-  color: #64748b;
-  font-weight: 700;
-  font-size: 14px;
-}
-
 .card-actions {
   display: flex;
   gap: 8px;
   flex-shrink: 0;
-}
-
-.editing-card {
-  align-items: stretch;
-}
-
-.edit-fields {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  flex: 1;
 }
 
 .form-error,
@@ -175,16 +163,33 @@ input:focus {
   color: #64748b;
 }
 
+.about-panel {
+  text-align: center;
+  padding: 40px 20px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.about-panel h2 {
+  color: #1e293b;
+  margin: 0 0 15px;
+}
+
+.about-panel p {
+  color: #64748b;
+  line-height: 1.6;
+  margin: 0;
+}
+
 @media (max-width: 640px) {
-  .layout-header,
-  .card,
-  .editing-card {
+  .layout-header {
     align-items: stretch;
     flex-direction: column;
   }
 
-  .add-form,
-  .edit-fields {
+  .add-form {
     grid-template-columns: 1fr;
   }
 
