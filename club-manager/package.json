@@ -10,5 +10,9 @@
   },
   "devDependencies": {
     "concurrently": "^9.1.0"
+  },
+  "dependencies": {
+    "react": "^19.2.7",
+    "vite": "^8.0.16"
   }
 }
