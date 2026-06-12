@@ -10,12 +10,27 @@ dotenv.config();
 
 const app = express();
 const port = Number(process.env.PORT) || 8080;
-const allowedOrigins = ["http://localhost:3000", "http://127.0.0.1:3000"];
+const configuredOrigins = [
+  process.env.FRONTEND_URL,
+  process.env.FRONTEND_URLS,
+  process.env.CORS_ORIGINS,
+]
+  .flatMap((origin) => origin?.split(",") ?? [])
+  .map((origin) => origin.trim())
+  .filter((origin) => origin.length > 0);
+
+const allowedOrigins = new Set([
+  "http://localhost:3000",
+  "http://127.0.0.1:3000",
+  "https://club-manager-frontend.onrender.com",
+  "https://club-manager-jt60.onrender.com",
+  ...configuredOrigins,
+]);
 
 app.use(
   cors({
     origin(origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
+      if (!origin || allowedOrigins.has(origin)) {
         callback(null, true);
         return;
       }
@@ -28,22 +43,38 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 
+app.get("/", (_req, res) => {
+  res.status(200).json({
+    service: "club-manager-backend",
+    status: "ok",
+    version: "deploy5",
+  });
+});
+
+app.get("/api/health", (_req, res) => {
+  res.status(200).json({
+    service: "club-manager-backend",
+    status: "ok",
+    version: "deploy5",
+  });
+});
+
 app.use("/api/auth", authRouter);
 app.use("/api/members", authMiddleware, membersRouter);
 
-// 수정됨: 서버가 예상치 못한 에러로 꺼지는 것을 막는 글로벌 에러 핸들러
+// Keep unexpected errors from terminating the server process.
 app.use(
   (
-    err: any,
-    req: express.Request,
+    err: Error,
+    _req: express.Request,
     res: express.Response,
-    next: express.NextFunction,
+    _next: express.NextFunction,
   ) => {
     console.error(err.stack);
-    res.status(500).json({ error: "서버 내부에서 문제가 발생했습니다!" });
+    res.status(500).json({ error: "Internal server error." });
   },
 );
 
 app.listen(port, () => {
-  console.log(`백엔드 서버 가동 중: http://localhost:${port}`);
+  console.log(`Backend server running at http://localhost:${port}`);
 });

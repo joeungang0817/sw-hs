@@ -20,9 +20,9 @@ router.post("/login", (req, res) => {
 
   res.cookie("club_token", token, {
     httpOnly: true,
-    sameSite: "lax",
-    secure: false,
-    maxAge: 60 * 60 * 1000
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    maxAge: 60 * 60 * 1000,
   });
 
   return res.status(200).json({ message: "로그인 성공!" });
@@ -33,7 +33,11 @@ router.get("/me", authMiddleware, (_req, res) => {
 });
 
 router.post("/logout", (_req, res) => {
-  res.clearCookie("club_token");
+  res.clearCookie("club_token", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+  });
   return res.status(200).json({ message: "로그아웃 완료!" });
 });
 
