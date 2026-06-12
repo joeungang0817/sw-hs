@@ -10,16 +10,27 @@ dotenv.config();
 
 const app = express();
 const port = Number(process.env.PORT) || 8080;
-const allowedOrigins = [
+const configuredOrigins = [
+  process.env.FRONTEND_URL,
+  process.env.FRONTEND_URLS,
+  process.env.CORS_ORIGINS,
+]
+  .flatMap((origin) => origin?.split(",") ?? [])
+  .map((origin) => origin.trim())
+  .filter((origin) => origin.length > 0);
+
+const allowedOrigins = new Set([
   "http://localhost:3000",
   "http://127.0.0.1:3000",
-  process.env.FRONTEND_URL,
-].filter(Boolean);
+  "https://club-manager-frontend.onrender.com",
+  "https://club-manager-jt60.onrender.com",
+  ...configuredOrigins,
+]);
 
 app.use(
   cors({
     origin(origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
+      if (!origin || allowedOrigins.has(origin)) {
         callback(null, true);
         return;
       }
